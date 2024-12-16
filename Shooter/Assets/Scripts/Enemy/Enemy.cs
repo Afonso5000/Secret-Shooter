@@ -54,6 +54,7 @@ public class Enemy : MonoBehaviour
         }
 
         CanSeePlayer();
+        currentState = stateMachine.activeState.ToString();
     }
 
     private void MoveToNextWaypoint()

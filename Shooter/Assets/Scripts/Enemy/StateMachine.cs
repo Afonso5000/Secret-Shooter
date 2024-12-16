@@ -6,12 +6,10 @@ public class StateMachine : MonoBehaviour
 {
 
     public BaseState activeState;
-    public PatrolState patrolState;
 
     public void Initialise() {
 
-    patrolState = new PatrolState();
-    ChangeState(patrolState);
+    ChangeState(new PatrolState());
     }
     // propriedade para o estado de patrulha
     // Start is called before the first frame update
