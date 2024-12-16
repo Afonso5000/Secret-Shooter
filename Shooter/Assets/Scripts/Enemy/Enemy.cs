@@ -7,23 +7,30 @@ public class Enemy : MonoBehaviour
 {
     private StateMachine stateMachine;
     private NavMeshAgent agent;
+    private GameObject player;
+    private int currentWaypointIndex = 0; // Keeps track of the current waypoint
 
     public NavMeshAgent Agent { get => agent; }
+    public GameObject Player { get => player; }
 
-    [SerializeField]
-    private string currentState;
 
     public Path path; // Reference to the Path script
 
-    private GameObject player;
+    [Header("Sight Values")]
     public float sightDistance = 20f;
     public float fieldOfView = 85;
     public float eyeHeight;
 
+    [Header("Weapond Values")]
+    public Transform gunBarrel;
+    [Range(0.1f,10f)]
+    public float fireRate;
+
     public float waypointReachedThreshold = 0.5f; // How close the NPC needs to be to a waypoint
-    private int currentWaypointIndex = 0; // Keeps track of the current waypoint
     public bool isLooping = true; // Enables looping through waypoints
 
+    [SerializeField]
+    private string currentState;
     void Start()
     {
         stateMachine = GetComponent<StateMachine>();

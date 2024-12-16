@@ -36,12 +36,6 @@ public class PlayerHealth : MonoBehaviour
         // Update the health bar UI
         UpdateHealthUI();
 
-        // Test damage on key press
-        if (Input.GetKeyUp(KeyCode.T))
-        {
-            TakeDamage(Random.Range(5f, 10f));
-        }
-
         // Handle damage overlay fade-out
         if (overlay.color.a > 0)
         {
