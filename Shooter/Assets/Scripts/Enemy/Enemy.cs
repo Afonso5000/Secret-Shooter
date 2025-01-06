@@ -8,13 +8,16 @@ public class Enemy : MonoBehaviour
     private StateMachine stateMachine;
     private NavMeshAgent agent;
     private GameObject player;
+    private Vector3 lastKnownPos;
     private int currentWaypointIndex = 0; // Keeps track of the current waypoint
 
     public NavMeshAgent Agent { get => agent; }
     public GameObject Player { get => player; }
+    public Vector3 LastKnownPos { get => lastKnownPos; set => lastKnownPos = value;} 
 
 
     public Path path; // Reference to the Path script
+    public GameObject debugsphere;
 
     [Header("Sight Values")]
     public float sightDistance = 20f;
@@ -62,6 +65,7 @@ public class Enemy : MonoBehaviour
 
         CanSeePlayer();
         currentState = stateMachine.activeState.ToString();
+        debugsphere.transform.position  = lastKnownPos;
     }
 
     private void MoveToNextWaypoint()

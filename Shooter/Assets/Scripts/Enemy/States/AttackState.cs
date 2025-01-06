@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using EnemyAI;
 
 public class AttackState : BaseState
     {
@@ -31,13 +32,16 @@ public class AttackState : BaseState
                     moveTimer = 0;
 
                 }
+
+                enemy.LastKnownPos = enemy.Player.transform.position;
+
             }else{
 
                 LosePlayerTimer += Time.deltaTime;
                 if(LosePlayerTimer > 8){
 
                     //voltar para o estado de procura
-                    stateMachine.ChangeState(new PatrolState());
+                    stateMachine.ChangeState(new SearchState());
                 }
             }
         }
