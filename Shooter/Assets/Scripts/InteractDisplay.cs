@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class InteractDisplay : MonoBehaviour
 {
+    public GameObject currentObject;
     public Camera playerCamera;  // The camera from which we cast the ray
     public float interactionRange = 2f;  // Maximum distance for interaction
     public Text interactionText;  // The UI text that will appear when looking at an interactable object
@@ -25,6 +26,7 @@ public class InteractDisplay : MonoBehaviour
             // Check if the object has the tag "Interactable"
             if (hit.collider.CompareTag("Interactable"))
             {
+                currentObject = hit.collider.gameObject;
                 // Show the interaction text
                 interactionText.gameObject.SetActive(true);
             }
