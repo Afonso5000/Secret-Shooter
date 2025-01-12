@@ -19,6 +19,8 @@ public class Enemy : MonoBehaviour
     public Path path; // Reference to the Path script
     public GameObject debugsphere;
 
+    public float health;
+
     [Header("Sight Values")]
     public float sightDistance = 20f;
     public float fieldOfView = 85;
@@ -66,6 +68,9 @@ public class Enemy : MonoBehaviour
         CanSeePlayer();
         currentState = stateMachine.activeState.ToString();
         debugsphere.transform.position  = lastKnownPos;
+    
+        if(health <= 0)
+        Destroy(gameObject);
     }
 
     private void MoveToNextWaypoint()

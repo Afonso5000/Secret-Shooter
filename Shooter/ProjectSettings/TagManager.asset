@@ -6,14 +6,15 @@ TagManager:
   tags:
   - Interactable
   - Enemy
+  - WorldObjectHolder
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
+  - Bullet
   - 
   - 
   - 
