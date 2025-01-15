@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.AI;
 public class EnemyAi : MonoBehaviour
@@ -53,7 +52,7 @@ public class EnemyAi : MonoBehaviour
             Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
             //Walkpoint reached
-            if(distantToWalkPoint.magnitude < 1f)
+            if(distanceToWalkPoint.magnitude < 1f)
              walkPointSet = false;
 
     }
@@ -64,9 +63,10 @@ public class EnemyAi : MonoBehaviour
         float RandomZ = Random.Range(-walkPointRange, walkPointRange);
         float RandomX = Random.Range(-walkPointRange, walkPointRange);
 
-        walkPoint = new Vector3(transform.position.x + randomX, transform.position.y, transform.position.z + randomZ);
+        walkPoint = new Vector3(transform.position.x + RandomX, transform.position.y, transform.position.z + RandomZ);
 
-        if(Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround));
+        if(Physics.Raycast(walkPoint, -transform.up, 2f, whatIsGround))
+        walkPointSet = true;
 
     }
 
