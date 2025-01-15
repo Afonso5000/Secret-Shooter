@@ -31,29 +31,33 @@ public class EnemyAi : MonoBehaviour
     }
 
     private void Update(){
+// Check for sight and attack range
+    playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+    playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
 
-        //check for sight and attack range
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, whatIsPlayer);
-
-        if(!playerInSightRange && !playerInAttackRange) Patroling();
-        if(playerInSightRange && playerInAttackRange) ChasePlayer();
-        if(playerInAttackRange && playerInSightRange) AttackPlayer();
+    if (!playerInSightRange && !playerInAttackRange) 
+        Patroling();
+    else if (playerInSightRange && !playerInAttackRange) 
+        ChasePlayer();
+    else if (playerInAttackRange && playerInSightRange) 
+        AttackPlayer();
     }
 
 
     private void Patroling(){
 
-        if(!walkPointSet) SearchWalkpoint();
-    
-        if(!walkPointSet) 
-            agent.SetDestination(walkPoint);
+        if (!walkPointSet) SearchWalkpoint();
 
-            Vector3 distanceToWalkPoint = transform.position - walkPoint;
+    if (walkPointSet) // Fix condition here
+    {
+        agent.SetDestination(walkPoint);
 
-            //Walkpoint reached
-            if(distanceToWalkPoint.magnitude < 1f)
-             walkPointSet = false;
+        Vector3 distanceToWalkPoint = transform.position - walkPoint;
+
+        // Walkpoint reached
+        if (distanceToWalkPoint.magnitude < 1f)
+            walkPointSet = false;
+    }
 
     }
 
@@ -106,7 +110,9 @@ public class EnemyAi : MonoBehaviour
 
         health-= damage;
 
-        if (health < 0) Invoke(nameof(DestroyEnemy), .5f);
+        if (health < 0) 
+        
+        DestroyEnemy();
 
     }
 
@@ -115,4 +121,6 @@ public class EnemyAi : MonoBehaviour
         Destroy(gameObject);
 
     }
+
+
 }
