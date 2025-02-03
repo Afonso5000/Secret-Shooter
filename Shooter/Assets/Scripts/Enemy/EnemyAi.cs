@@ -10,6 +10,8 @@ public class EnemyAi : MonoBehaviour
    public LayerMask whatIsGround, whatIsPlayer;
     public float health;
 
+    public Transform firePoint;
+
    //Patroling 
     public Vector3 walkPoint;
     bool walkPointSet;
@@ -41,6 +43,23 @@ public class EnemyAi : MonoBehaviour
         ChasePlayer();
     else if (playerInAttackRange && playerInSightRange) 
         AttackPlayer();
+
+        if (health <= 0)
+        {
+            // Notify EnemyManager when this enemy is destroyed
+            EnemyManager enemyManager = FindObjectOfType<EnemyManager>();
+            if (enemyManager != null)
+            {
+                enemyManager.EnemyDestroyed();
+            }
+
+             // Remove the tag so it isn't counted
+            gameObject.tag = "Untagged";
+
+            // Destroy the ENTIRE parent object
+            Destroy(gameObject);
+        }
+
     }
 
 
@@ -55,7 +74,7 @@ public class EnemyAi : MonoBehaviour
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
         // Walkpoint reached
-        if (distanceToWalkPoint.magnitude < 1f)
+        if (distanceToWalkPoint.magnitude < 2f)
             walkPointSet = false;
     }
 
@@ -80,45 +99,41 @@ public class EnemyAi : MonoBehaviour
 
     }
 
-    private void AttackPlayer(){
+    private void AttackPlayer()
+{
+    // Stop movement while attacking
+    agent.SetDestination(transform.position);
 
-        //Make sure enemy dosen't move
-        agent.SetDestination(transform.position);
+    // Look at the player
+    transform.LookAt(player);
 
-        transform.LookAt(player);
+    if (!alreadyAttacked)
+    {
+        ShootAtPlayer(); // Call shooting function
 
-        if(!alreadyAttacked){
-
-            //Attack code here
-            Rigidbody rb = Instantiate(projectile, transform.position, Quaternion.identity).GetComponent<Rigidbody>();
-            rb.AddForce(transform.forward * 32f, ForceMode.Impulse);
-            rb.AddForce(transform.up * 8f, ForceMode.Impulse);
-
-            alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), timeBetweenAttacks);
-
-        }
+        alreadyAttacked = true;
+        Invoke(nameof(ResetAttack), timeBetweenAttacks);
     }
+}
+
+private void ShootAtPlayer()
+{
+    GameObject bullet = Instantiate(projectile, firePoint.position, Quaternion.identity);
+    Rigidbody rb = bullet.GetComponent<Rigidbody>();
+
+    // Ensure the bullet faces the player
+    Vector3 direction = (player.position - firePoint.position).normalized;
+    
+    // Make sure the bullet's rotation is correct
+    bullet.transform.forward = direction;
+
+    // Apply force only in the forward direction
+    rb.AddForce(direction * 32f, ForceMode.Impulse);
+}
 
     private void ResetAttack(){
 
         alreadyAttacked = false;
-
-    }
-
-    public void TakeDamage(int damage){
-
-        health-= damage;
-
-        if (health < 0) 
-        
-        DestroyEnemy();
-
-    }
-
-    private void DestroyEnemy(){
-
-        Destroy(gameObject);
 
     }
 

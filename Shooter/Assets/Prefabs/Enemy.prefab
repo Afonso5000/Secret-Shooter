@@ -213,7 +213,7 @@ Transform:
   m_GameObject: {fileID: 4014666825471697464}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 54.389835, y: 3.755, z: 1.0179894}
+  m_LocalPosition: {x: 54.389835, y: 3.755, z: 1.27}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -481,6 +481,7 @@ GameObject:
   - component: {fileID: 1036732089106913640}
   - component: {fileID: 3147979532951613271}
   - component: {fileID: 5332731686136125191}
+  - component: {fileID: 9083705548058040787}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -497,7 +498,7 @@ Transform:
   m_GameObject: {fileID: 6319690518425124135}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.018, z: 0}
+  m_LocalPosition: {x: -21.44, y: 0.047, z: 0}
   m_LocalScale: {x: 1, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -586,11 +587,11 @@ NavMeshAgent:
   m_GameObject: {fileID: 6319690518425124135}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 1.18
+  m_Radius: 0.84
   m_Speed: 4
   m_Acceleration: 6
   avoidancePriority: 50
-  m_AngularSpeed: 360
+  m_AngularSpeed: 720
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -620,14 +621,29 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1024
   health: 100
+  firePoint: {fileID: 7453788619848122934}
   walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 50
+  walkPointRange: 25
   timeBetweenAttacks: 0.5
   projectile: {fileID: 7400685038915858611, guid: 260369f04a6435149a76c9ea7ef7e954, type: 3}
   sightRange: 15
   attackRange: 10
   playerInSightRange: 0
   playerInAttackRange: 0
+--- !u!114 &9083705548058040787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6319690518425124135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52ae3d4ede35e214b9b8b337ef90af04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyCounterText: {fileID: 0}
+  victoryPanel: {fileID: 0}
 --- !u!1 &7554854187573880794
 GameObject:
   m_ObjectHideFlags: 0
@@ -914,6 +930,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: e1945f0d2dd3bb6468d5a9d7bfdab659, type: 3}
       propertyPath: m_Name
       value: AssaultRifle
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e1945f0d2dd3bb6468d5a9d7bfdab659, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
