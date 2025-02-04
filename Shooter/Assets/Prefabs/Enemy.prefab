@@ -213,7 +213,7 @@ Transform:
   m_GameObject: {fileID: 4014666825471697464}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 54.389835, y: 3.755, z: 1.27}
+  m_LocalPosition: {x: 54.389835, y: 3.755, z: 1.97}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -620,7 +620,7 @@ MonoBehaviour:
   whatIsPlayer:
     serializedVersion: 2
     m_Bits: 1024
-  health: 100
+  health: 70
   firePoint: {fileID: 7453788619848122934}
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 25

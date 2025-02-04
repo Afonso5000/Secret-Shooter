@@ -57,7 +57,7 @@ public class EnemyAi : MonoBehaviour
             gameObject.tag = "Untagged";
 
             // Destroy the ENTIRE parent object
-            Destroy(gameObject);
+           Destroy(gameObject.transform.root.gameObject);
         }
 
     }

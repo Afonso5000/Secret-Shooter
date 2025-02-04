@@ -7,16 +7,14 @@ public class EnemyManager : MonoBehaviour
 {
     public Text enemyCounterText; // UI Text to display the enemy count
     public GameObject victoryPanel; // UI panel for victory screen
+    public static int enemiesRemaining = 0; // Static counter for enemies
 
-    private int enemiesRemaining; // Number of enemies left
-
-    void Start()
+    private void Start()
     {
-        // Set enemy count only at the beginning
-       enemiesRemaining = GameObject.FindGameObjectsWithTag("Enemy").Length;
-            Debug.Log("Enemies at start: " + enemiesRemaining); // Debug Log
-            UpdateEnemyCounter();
-        
+        // Set enemy count at the beginning
+        enemiesRemaining = GameObject.FindGameObjectsWithTag("Enemy").Length;
+        UpdateEnemyCount();
+
         // Ensure the victory panel is disabled at start
         if (victoryPanel != null)
             victoryPanel.SetActive(false);
@@ -24,28 +22,25 @@ public class EnemyManager : MonoBehaviour
 
     public void EnemyDestroyed()
     {
-        enemiesRemaining--; // Decrease the count when an enemy is destroyed
-        UpdateEnemyCounter();
+        enemiesRemaining--; // Reduce count when an enemy dies
+        UpdateEnemyCount();
 
-        // Check if the player wins
+        // Check if all enemies are defeated
         if (enemiesRemaining <= 0)
         {
             TriggerVictory();
         }
     }
 
-    private void UpdateEnemyCounter()
+    private void UpdateEnemyCount()
     {
-        if (enemyCounterText != null)
-        {
-            enemyCounterText.text = "Enemies Left: " + enemiesRemaining;
-        }
+        enemyCounterText.text = "Enemies Left: " + enemiesRemaining;
     }
 
     private void TriggerVictory()
     {
         Debug.Log("Victory! All enemies are destroyed.");
-        
+
         // Show the victory panel if assigned
         if (victoryPanel != null)
             victoryPanel.SetActive(true);
