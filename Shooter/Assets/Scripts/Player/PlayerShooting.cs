@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
  
-public class Player : MonoBehaviour
+public class PlayerShooting : MonoBehaviour
 {
     [Header("Bullet Variables")]
     public float bulletSpeed;

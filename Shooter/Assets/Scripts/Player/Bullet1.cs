@@ -28,7 +28,7 @@ public class Bullet1 : MonoBehaviour
         {
             if (hit.collider.GetComponent<EnemyAi>() != null)
             {
-                hit.collider.GetComponent<EnemyAi>().health -= damage;
+                hit.collider.GetComponent<EnemyAi>().TakeDamage(damage);
                 Destroy(gameObject); // Destroy bullet when it hits
             }
         }
@@ -42,7 +42,7 @@ public class Bullet1 : MonoBehaviour
         }
         else if (other.GetComponent<EnemyAi>() != null)
         {
-            other.GetComponent<EnemyAi>().health -= damage;
+            other.GetComponent<EnemyAi>().TakeDamage(damage);
             Destroy(gameObject);
         }
         else if (other.GetComponent<PlayerHealth>() != null)
