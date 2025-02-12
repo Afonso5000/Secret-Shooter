@@ -64,9 +64,8 @@ public class EnemyManager : MonoBehaviour
         if (playerMovement) playerMovement.enabled = false;
         if (playerShooting) playerShooting.enabled = false;
 
-        // 🔓 Unlock the cursor so the player can use the menu
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        // 🔓 Unlock the cursor for menu interaction
+        UnlockCursor();
     }
 
     public void RestartGame()
@@ -75,8 +74,7 @@ public class EnemyManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
         // 🔒 Lock cursor again when the game restarts
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        LockCursor();
     }
 
     public void ReturnToMainMenu()
@@ -84,14 +82,25 @@ public class EnemyManager : MonoBehaviour
         Time.timeScale = 1f; // 🔵 Resume time
         SceneManager.LoadScene(0);
 
-        // 🔒 Lock cursor again for gameplay
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        // 🔓 Unlock cursor when returning to the main menu
+        UnlockCursor();
     }
 
     public void QuitGame()
     {
         Time.timeScale = 1f; // 🔵 Resume time
         Application.Quit();
+    }
+
+    private void UnlockCursor()
+    {
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+    }
+
+    private void LockCursor()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 }
