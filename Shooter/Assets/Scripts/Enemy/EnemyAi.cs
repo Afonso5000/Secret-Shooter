@@ -6,22 +6,25 @@ public class EnemyAi : MonoBehaviour
     public NavMeshAgent agent;
     public Transform player;
     public LayerMask whatIsGround, whatIsPlayer;
-    public float health = 100f; // Make sure health is set
+    public float health = 100f;
     public Transform firePoint;
 
-    //Patrolling
+    [Header("Patrolling")]
     public Vector3 walkPoint;
     bool walkPointSet;
     public float walkPointRange;
 
-    //Attacking
+    [Header("Attacking")]
     public float timeBetweenAttacks;
     bool alreadyAttacked;
     public GameObject projectile;
 
-    //States
+    [Header("States")]
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
+
+    [Header("Audio")]
+    public AudioSource shootAudioSource; // Assign in Inspector
 
     private void Awake()
     {
@@ -93,6 +96,12 @@ public class EnemyAi : MonoBehaviour
         Vector3 direction = (player.position - firePoint.position).normalized;
         bullet.transform.forward = direction;
         rb.AddForce(direction * 32f, ForceMode.Impulse);
+
+        // **Play Shoot Sound**
+        if (shootAudioSource != null)
+        {
+            shootAudioSource.Play();
+        }
     }
 
     private void ResetAttack()
@@ -100,32 +109,28 @@ public class EnemyAi : MonoBehaviour
         alreadyAttacked = false;
     }
 
-   public void TakeDamage(float amount)
-{
-    health -= amount;
-    Debug.Log(gameObject.name + " took damage! Current health: " + health);
-
-    if (health <= 0)
+    public void TakeDamage(float amount)
     {
-        Die();
-    }
-}
+        health -= amount;
+        Debug.Log(gameObject.name + " took damage! Current health: " + health);
 
-private void Die()
-{
-    Debug.Log(gameObject.name + " is dying!"); // Check if this prints
-
-    // Notify the EnemyManager that this enemy is destroyed
-    EnemyManager enemyManager = FindObjectOfType<EnemyManager>();
-    if (enemyManager != null)
-    {
-        enemyManager.EnemyDestroyed();
+        if (health <= 0)
+        {
+            Die();
+        }
     }
 
-    // Prevents being counted again
-    gameObject.tag = "Untagged";
+    private void Die()
+    {
+        Debug.Log(gameObject.name + " is dying!");
 
-    // Destroy the entire enemy
-    Destroy(gameObject);
-}
+        EnemyManager enemyManager = FindObjectOfType<EnemyManager>();
+        if (enemyManager != null)
+        {
+            enemyManager.EnemyDestroyed();
+        }
+
+        gameObject.tag = "Untagged";
+        Destroy(gameObject);
+    }
 }

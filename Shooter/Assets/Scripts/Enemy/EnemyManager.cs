@@ -9,6 +9,7 @@ public class EnemyManager : MonoBehaviour
 
     public Text enemyCounterText; // UI Text to display the enemy count
     public GameObject victoryPanel; // UI panel for victory screen
+    public AudioSource victoryMusic; // 🎶 Assign this in Unity
     public int enemiesRemaining = 0; // Enemy count
 
     private PlayerMovement playerMovement; // Reference to PlayerMovement script
@@ -57,6 +58,12 @@ public class EnemyManager : MonoBehaviour
 
         if (victoryPanel != null)
             victoryPanel.SetActive(true);
+
+        // 🎶 Play victory music
+        if (victoryMusic != null)
+        {
+            victoryMusic.Play();
+        }
 
         Time.timeScale = 0f; // 🔴 Pause the game
 

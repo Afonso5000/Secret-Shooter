@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI; // Required for UI elements
+using UnityEngine.UI;
 
 public class PlayerShooting : MonoBehaviour
 {
@@ -9,16 +9,20 @@ public class PlayerShooting : MonoBehaviour
     public float bulletSpeed;
     public float fireRate, bulletDamage;
     public bool isAuto;
-    public int maxAmmo = 30; // Max bullets per clip
-    public float reloadTime = 2f; // Reload time in seconds
+    public int maxAmmo = 30;
+    public float reloadTime = 2f;
 
     [Header("UI Elements")]
-    public Text reloadMessage; // Assign in Unity UI
-    public Text ammoText; // Assign in Unity UI (for bullet counter)
+    public Text reloadMessage;
+    public Text ammoText;
 
     [Header("Initial Setup")]
     public Transform bulletSpawnTransform;
     public GameObject bulletPrefab;
+
+    [Header("Audio Sources")]
+    public AudioSource shootAudioSource;  // Assign in Inspector
+    public AudioSource reloadAudioSource; // Assign in Inspector
 
     private float timer;
     private int currentAmmo;
@@ -26,15 +30,15 @@ public class PlayerShooting : MonoBehaviour
 
     private void Start()
     {
-        currentAmmo = maxAmmo; // Start with full ammo
-        reloadMessage.enabled = false; // Hide reload message initially
-        UpdateAmmoUI(); // Update bullet counter on start
+        currentAmmo = maxAmmo;
+        reloadMessage.enabled = false;
+        UpdateAmmoUI();
     }
 
     private void Update()
     {
         if (isReloading)
-            return; // Stop shooting while reloading
+            return;
 
         if (timer > 0)
             timer -= Time.deltaTime / fireRate;
@@ -54,18 +58,16 @@ public class PlayerShooting : MonoBehaviour
             }
         }
 
-        // Show reload message when bullets are 5 or less (including 0)
         if (currentAmmo <= 5)
         {
             reloadMessage.enabled = true;
-            reloadMessage.text = currentAmmo == 0 ? "Click 'R' reload" : "Press 'R' to Reload";
+            reloadMessage.text = currentAmmo == 0 ? "Click 'R' to reload" : "Press 'R' to Reload";
         }
         else
         {
             reloadMessage.enabled = false;
         }
 
-        // Reload when 'R' is pressed
         if (Input.GetKeyDown(KeyCode.R))
         {
             StartCoroutine(Reload());
@@ -84,31 +86,43 @@ public class PlayerShooting : MonoBehaviour
         bullet.GetComponent<Rigidbody>().AddForce(bulletSpawnTransform.forward * bulletSpeed, ForceMode.Impulse);
         bullet.GetComponent<Bullet1>().damage = bulletDamage;
 
-        currentAmmo--; // Reduce bullet count
-        UpdateAmmoUI(); // Update UI
+        currentAmmo--;
+        UpdateAmmoUI();
         timer = 1;
+
+        // **Play Shoot Sound**
+        if (shootAudioSource != null)
+        {
+            shootAudioSource.Play();
+        }
     }
 
     IEnumerator Reload()
     {
-        if (isReloading) yield break; // Prevent multiple reloads
+        if (isReloading) yield break;
 
         isReloading = true;
         reloadMessage.enabled = true;
         reloadMessage.text = "Reloading...";
         Debug.Log("Reloading...");
 
+        // **Play Reload Sound**
+        if (reloadAudioSource != null)
+        {
+            reloadAudioSource.Play();
+        }
+
         yield return new WaitForSeconds(reloadTime);
 
-        currentAmmo = maxAmmo; // Reset ammo
+        currentAmmo = maxAmmo;
         isReloading = false;
-        UpdateAmmoUI(); // Update UI after reload
+        UpdateAmmoUI();
         reloadMessage.enabled = false;
         Debug.Log("Reload Complete!");
     }
 
     void UpdateAmmoUI()
     {
-        ammoText.text = $"Ammo: {currentAmmo}/{maxAmmo}"; // Example: "Ammo: 15/30"
+        ammoText.text = $"Ammo: {currentAmmo}/{maxAmmo}";
     }
 }

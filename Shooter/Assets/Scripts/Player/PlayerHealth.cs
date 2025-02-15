@@ -19,11 +19,14 @@ public class PlayerHealth : MonoBehaviour
     public Image overlay;
     public float duration = 1f;
     public float fadeSpeed = 1f;
-
     private float durationTimer = 0f;
 
     [Header("Defeat Screen")]
     public GameObject defeatScreen;
+
+    [Header("Audio")]
+    public AudioSource damageAudioSource; // Assign in Inspector
+    public AudioSource deathAudioSource;  // 🎵 Assign death sound in Inspector
 
     private PlayerMovement gameScript;
     private PlayerShooting gunScript;
@@ -63,9 +66,14 @@ public class PlayerHealth : MonoBehaviour
         health -= damage;
         Debug.Log($"Player takes {damage} damage! Current health: {health}");
 
+        // **Play Damage Sound**
+        if (damageAudioSource != null)
+        {
+            damageAudioSource.Play();
+        }
+
         overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, 1f);
         durationTimer = 0f;
-
         lerpTimer = 0f;
 
         if (health <= 0)
@@ -77,6 +85,13 @@ public class PlayerHealth : MonoBehaviour
     public void TriggerDefeatScreen()
     {
         Debug.Log("Player Defeated!");
+
+        // 🎵 Play Death Sound
+        if (deathAudioSource != null)
+        {
+            deathAudioSource.Play();
+        }
+
         if (defeatScreen != null)
         {
             defeatScreen.SetActive(true);
